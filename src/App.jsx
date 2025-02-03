@@ -1,16 +1,18 @@
 // https://github.com/Rod97139/argent-bank-frontend/blob/main/src/slices/authSlice.js
 
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
-import { Provider } from 'react-redux'
+import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom'
+import { Provider, useSelector } from 'react-redux'
 
 import Home from './pages/Home'
 import SignIn from "./pages/SignIn"
 import User from "./pages/User"
-import Points from "./pages/Points"
 
 import Header from "./components/Header"
 import Footer from "./components/Footer"
 import store from './app/store'
+import { selectLogged } from './app/userSlice'
+
+// const logged = false
 
 const router = createBrowserRouter([
   {
@@ -33,20 +35,12 @@ const router = createBrowserRouter([
           },
           {
             path: "/signin",
-            element: <>
-              <SignIn />
-            </>
+            element: <AuthRedirect />
           },
           {
             path: "/user",
             element: <>
               <User />
-            </>
-          },
-          {
-            path: "/points",
-            element: <>
-              <Points />
             </>
           }
         ]
@@ -55,18 +49,25 @@ const router = createBrowserRouter([
   }
 ])
 
+function AuthRedirect () {
+  const logged = useSelector(selectLogged)
+
+  if (logged) {
+    return <Navigate replace to="/user" />
+  } else {
+    return <SignIn />
+  }
+}
+
 function Root() {
   return <Outlet />
 }
 
 function Router () {
-  return <>
-    <RouterProvider router={router} />
-  </>
+  return <RouterProvider router={router} />
 }
 
 function App() {
-
   return <>
       <Provider store={store}>
         <Router />
