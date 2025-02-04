@@ -13,12 +13,27 @@ body {
   min-height: 100vh;
 }
 
-.main {
-  flex: 1;
+h1, h2, h3, h4, h5, h6 {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-weight: 500;
 }
 
-.bg-dark {
-  background-color: #12002b;
+.main {
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  gap: 50px;
+}
+
+.flex-20 {
+  display: flex;
+  gap: 20px;
+}
+
+.bg-light {
+  background-color: #dfe6ed;
 }
 
 .sr-only {
@@ -49,15 +64,6 @@ body {
 
 .main-nav a.router-link-exact-active {
   color: #42b983;
-}
-
-.main-nav-item {
-  text-decoration: none;
-  margin-right: 0.5rem;
-}
-
-.main-nav-item:hover {
-  text-decoration: underline;
 }
 
 .main-nav-logo {
@@ -160,9 +166,6 @@ body {
   font-size: 1.1rem;
   font-weight: bold;
   margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
 }
 
 .sign-in-content {
@@ -170,7 +173,6 @@ body {
   background-color: white;
   width: 300px;
   margin: 0 auto;
-  margin-top: 3rem;
   padding: 2rem;
 }
 
@@ -190,7 +192,6 @@ body {
   display: flex;
   flex-direction: column;
   text-align: left;
-  margin-bottom: 1rem;
 }
 
 .input-wrapper label {
@@ -251,29 +252,72 @@ body {
   flex: 1;
 }
 
-.edit-button {
-  border-color: #00bc77;
-  background-color: #00bc77;
-  color: #fff;
-  font-weight: bold;
-  padding: 10px;
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.header {
-  color: #fff;
-  margin-bottom: 2rem;
-}
-
-.transaction-button {
+.button {
   display: block;
-  width: 100%;
-  padding: 8px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  border-color: #00bc77;
-  background-color: #00bc77;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 10px;
+  min-width: 130px;
+  text-decoration: none;
+}
+
+.outlined-button {
+  color: #6458f5;
+  background-color: #fff;
+  border: 2px solid #b3b3f0;
+}
+
+.outlined-light-button {
+  color: #9b9b9b;
+  background-color: #fff;
+  border: 2px solid #b8c4ce;
+}
+
+.filled-button {
   color: #fff;
+  background-color: #6458f5;
+  border: none;
+}
+
+.large-button {
+  width: 200px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.sign-in-header {
+  margin-bottom: 20px;
+}
+
+.edit-profil-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  max-width: 350px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.outlined-light-section {
+  background-color: #fff;
+  border: 2px solid #b8c4ce;
+  border-radius: 2px;
 }
 
 @media (min-width: 720px) {
@@ -283,9 +327,5 @@ body {
 
   .account-content-wrapper.cta {
     flex: 0;
-  }
-
-  .transaction-button {
-    width: 200px;
   }
 }

@@ -4,11 +4,11 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import Home from './pages/Home'
-import SignIn from "./pages/SignIn"
+import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
-import User from "./pages/User"
+import Profile from "./pages/Profile"
 
-import Header from "./components/Header"
+import Header from "./components/header/Header"
 import Footer from "./components/Footer"
 import store from './app/store'
 
@@ -34,17 +34,17 @@ const router = createBrowserRouter([
             </>
           },
           {
-            path: "/signin",
-            element: <SignIn />
+            path: "/login",
+            element: <Login />
           },
           {
             path: "/signup",
             element: <SignUp />
           },
           {
-            path: "/user",
+            path: "/profile",
             element: <>
-              <User />
+              <Profile />
             </>
           }
         ]

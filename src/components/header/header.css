@@ -1,0 +1,26 @@
+header {
+    height: 65px;
+}
+
+
+.main-nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav-item {
+    text-decoration: none;
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.rounded-icon {
+    padding: 10px 12px;
+    font-size: 15px;
+    background-color: #dfe6ed;
+    border-radius: 20px;
+    display: grid;
+    place-content: center;
+}

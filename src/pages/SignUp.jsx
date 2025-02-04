@@ -1,7 +1,9 @@
+import { useState } from "react"
 import { newUser } from "../utils/api"
 
 
 function SignUp () {
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -10,15 +12,19 @@ function SignUp () {
         const firstName = document.querySelector("#firstName").value
         const lastName = document.querySelector("#lastName").value
 
-        newUser(email, password, firstName, lastName)
+        const res = await newUser(email, password, firstName, lastName)
+        const error = await JSON.parse(res.request.response).message
+        setErrorMessage(error)
     }
 
     return <>
-        <main className="main bg-dark">
+        <main className="main bg-light">
             <section className="sign-in-content">
-                <i className="fa fa-user-circle sign-in-icon"></i>
-                <h1>Sign Up</h1>
-                <form onSubmit={handleSubmit}>
+                <div className="sign-in-header">
+                    <i className="fa fa-user-circle sign-in-icon"></i>
+                    <h1>Sign Up</h1>
+                </div>
+                <form onSubmit={handleSubmit} className="login-form">
                     <div className="input-wrapper">
                         <label htmlFor ="firstName">First name</label>
                         <input type="text" id="firstName" />
@@ -35,7 +41,10 @@ function SignUp () {
                         <label htmlFor ="email">Email</label>
                         <input type="email" id="email" />
                     </div>
-                    <button type="submit" className="sign-in-button">Create my account</button>
+                    {
+                        errorMessage && <p>{errorMessage}</p>
+                    } 
+                    <button type="submit" className="button full-width filled-button">Create my account</button>
                 </form>
             </section>
         </main>

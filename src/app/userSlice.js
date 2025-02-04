@@ -37,10 +37,6 @@ const userSlice = createSlice({
             .addCase(updateUserDataThunk.fulfilled, (state, action) => {
                 state.userInfo = action.payload.data.body
             })
-            
-            .addCase(updateUserDataThunk.fulfilled, (state, action) => {
-                state.userInfo = action.payload.data.body
-            })
         }
 })
 export const { logout, rememberLog } = userSlice.actions
