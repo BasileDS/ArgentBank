@@ -1,15 +1,25 @@
+import { useSelector } from "react-redux"
 import store from "../app/store"
-import { loginThunk } from "../app/userSlice"
+import { loginThunk, selectLogged, userDataThunk } from "../app/userSlice"
+import { Navigate, NavLink } from "react-router-dom"
 
 
 function SignIn () {    
+    const logged = useSelector(selectLogged)
+    if (logged) {
+      return <Navigate replace to="/user" />
+    }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const email = document.querySelector("#username").value
         const password = document.querySelector("#password").value
         
-        store.dispatch(loginThunk({email, password}))
+        // Update state token & userInfo + set Token to localStorage on submit
+        const res = await store.dispatch(loginThunk({email, password}))
+        const token = res.payload.body.token
+        store.dispatch(userDataThunk(token))
+        window.localStorage.setItem("authToken", token)
     }
 
     return <>
@@ -31,6 +41,7 @@ function SignIn () {
                         <input type="checkbox" id="remember-me" />
                     </div>
                     <button type="submit" className="sign-in-button">Sign In</button>
+                    <NavLink to="/signup" className="sign-in-button">Create an account</NavLink>
                 </form>
             </section>
         </main>

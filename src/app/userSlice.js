@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUserProfile, userLogin } from "../utils/api";
+import { fetchUserProfile, updateUserProfile, userLogin } from "../utils/api";
 
 
 /** Create reducer and actions to be dispatched */
 const userSlice = createSlice({
     name: "user",
     initialState: {
+        userInfo: null,
         logged: false,
         authToken: null
     },
@@ -27,20 +28,33 @@ const userSlice = createSlice({
             })
             /** get User data thunks */
             .addCase(userDataThunk.fulfilled, (state, action) => {
-                state.user = action.payload
+                state.userInfo = action.payload
             })
-    }
+            .addCase(userDataThunk.rejected, (state) => {
+                state.userInfo = null
+            })
+            /** Update User data thunks */
+            .addCase(updateUserDataThunk.fulfilled, (state, action) => {
+                state.userInfo = action.payload.data.body
+            })
+            
+            .addCase(updateUserDataThunk.fulfilled, (state, action) => {
+                state.userInfo = action.payload.data.body
+            })
+        }
 })
 export const { logout, rememberLog } = userSlice.actions
 
 export default userSlice.reducer
 
 /** Export state selectors */
+export const selectUserInfo = state => state.user.userInfo
 export const selectLogged = state => state.user.logged
 export const selectToken = state => state.user.authToken
 
 
 /** Async logic to be used in the reducer */
+/** USer login thunk */
 export const loginThunk = createAsyncThunk(
     "user/loginThunk",
     async ({email, password}, { rejectWithValue }) => { // thunkAPI doc => https://redux-toolkit.js.org/api/createAsyncThunk 
@@ -49,7 +63,6 @@ export const loginThunk = createAsyncThunk(
             if (res.status === 400) {
                 return rejectWithValue(res.error)
             }
-            window.localStorage.setItem("authToken", res.body.token)
             return res
         } catch (err) {
             return err
@@ -57,14 +70,31 @@ export const loginThunk = createAsyncThunk(
     }
 )
 
+/** User infos Thunk */
 export const userDataThunk = createAsyncThunk(
     "user/getUserData",
-    async (token) => {
+    async (token, { rejectWithValue }) => {
         try {
-            const res = getUserProfile(token)
-            console.log(res)
+            const res = await fetchUserProfile(token)
+            if (res.status === 401) {
+                return rejectWithValue(res.error)
+            }
+            return res
         } catch (err) {
-            return err
+            return rejectWithValue(err)
+        }
+    }
+)
+
+/** Update User infos Thunk */
+export const updateUserDataThunk = createAsyncThunk(
+    "user/updateUserData",
+    async ({ firstName, lastName, token }, { rejectWithValue }) => {
+        try {
+            const res = await updateUserProfile(firstName, lastName, token)
+            return res
+        } catch (err) {
+            return rejectWithValue(err)
         }
     }
 )
