@@ -19,7 +19,7 @@ export async function userLogin(email, password) {
 }
 
 /** Gets User profile info */
-export async function fetchUserProfile(token) {
+export async function postUserProfile(token) {
     try {
         const res = await axios.post(
             `${API_URL}/user/profile`,

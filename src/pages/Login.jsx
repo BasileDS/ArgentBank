@@ -1,16 +1,20 @@
+import { Navigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import store from "../app/store"
 import { loginThunk, selectLogged, userDataThunk } from "../app/userSlice"
-import { Navigate, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { useState } from "react"
 
+import connectionRedirects from "../utils/connectionRedirects"
 
 function Login () {
     const [loginErrorMessage, setLoginErrorMessage] = useState(null)
-
+    
     const logged = useSelector(selectLogged)
+    connectionRedirects(logged)
+
     if (logged) {
-      return <Navigate replace to="/profile" />
+        return <Navigate replace to="/profile" />
     }
 
     const handleSubmit = async (e) => {

@@ -12,6 +12,7 @@ function Header () {
     const userInfo = useSelector(selectUserInfo)
 
     const handleLogOut = () => {
+        window.localStorage.clear()
         store.dispatch(logout())
     }
 

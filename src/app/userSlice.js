@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchUserProfile, updateUserProfile, userLogin } from "../utils/api";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { postUserProfile, updateUserProfile, userLogin } from "../utils/api"
 
 
 /** Create reducer and actions to be dispatched */
@@ -12,7 +12,9 @@ const userSlice = createSlice({
     },
     reducers: {
         logout: state => { 
-            state.logged = false
+            state.logged = false,
+            state.userInfo = null,
+            state.authToken = null
         }
     },
     extraReducers: (builder) => {
@@ -28,14 +30,17 @@ const userSlice = createSlice({
             })
             /** get User data thunks */
             .addCase(userDataThunk.fulfilled, (state, action) => {
+                state.logged = true,
                 state.userInfo = action.payload
+                state.authToken = action.meta.arg
             })
             .addCase(userDataThunk.rejected, (state) => {
+                state.logged = false,
                 state.userInfo = null
             })
             /** Update User data thunks */
             .addCase(updateUserDataThunk.fulfilled, (state, action) => {
-                state.userInfo = action.payload.data.body
+                state.userInfo = action.payload.body
             })
         }
 })
@@ -71,7 +76,7 @@ export const userDataThunk = createAsyncThunk(
     "user/getUserData",
     async (token, { rejectWithValue }) => {
         try {
-            const res = await fetchUserProfile(token)
+            const res = await postUserProfile(token)
             if (res.status === 401) {
                 return rejectWithValue(res.error)
             }
@@ -88,7 +93,8 @@ export const updateUserDataThunk = createAsyncThunk(
     async ({ firstName, lastName, token }, { rejectWithValue }) => {
         try {
             const res = await updateUserProfile(firstName, lastName, token)
-            return res
+
+            return res.data
         } catch (err) {
             return rejectWithValue(err)
         }

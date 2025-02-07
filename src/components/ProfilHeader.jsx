@@ -1,13 +1,10 @@
-import { useSelector } from "react-redux"
-import { selectToken, selectUserInfo, updateUserDataThunk } from "../app/userSlice"
+/* eslint-disable react/prop-types */
+import { updateUserDataThunk } from "../app/userSlice"
 import { useState } from "react"
 import store from "../app/store"
 
-export default function ProfileHeader () {
+export default function ProfileHeader ({user, token}) {
   const [updatingProfile, setUpdatingProfile] = useState(false)
-  
-  const user = useSelector(selectUserInfo)
-  const token = useSelector(selectToken)
 
   /** handle update dispatch action thunk */
   const handleSubmit = async (e) => {

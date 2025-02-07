@@ -1,4 +1,12 @@
+import { useSelector } from "react-redux"
+import { selectLogged } from "../app/userSlice"
+
+import connectionRedirects from "../utils/connectionRedirects"
+
 function Home () {
+    const logged = useSelector(selectLogged)
+    connectionRedirects(logged)
+
     return <>
         <main>
             <div className="hero">
