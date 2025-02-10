@@ -12,7 +12,7 @@ function Header () {
     const userInfo = useSelector(selectUserInfo)
 
     const handleLogOut = () => {
-        window.localStorage.clear()
+        window.localStorage.removeItem("authToken")
         store.dispatch(logout())
     }
 

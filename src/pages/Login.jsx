@@ -34,7 +34,6 @@ function Login () {
             store.dispatch(userDataThunk(token))
             window.localStorage.setItem("authToken", token)
             if (rememberMe === true) {
-                console.log("checked")
                 window.localStorage.setItem("AB-UserEmail", email)
             }
         }
