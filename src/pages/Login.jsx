@@ -21,6 +21,7 @@ function Login () {
         e.preventDefault()
         const email = document.querySelector("#username").value
         const password = document.querySelector("#password").value
+        const rememberMe = document.querySelector("#remember-me").checked
         
         // Update state token & userInfo + set Token to localStorage on submit
         const res = await store.dispatch(loginThunk({email, password}))
@@ -32,6 +33,17 @@ function Login () {
             const token = res?.payload?.body?.token
             store.dispatch(userDataThunk(token))
             window.localStorage.setItem("authToken", token)
+            if (rememberMe === true) {
+                console.log("checked")
+                window.localStorage.setItem("AB-UserEmail", email)
+            }
+        }
+    }
+
+    const getLocalUserEmail = () => {
+        const userEmail = window.localStorage.getItem("AB-UserEmail")
+        if (userEmail !== null) {
+            return userEmail
         }
     }
     
@@ -44,15 +56,15 @@ function Login () {
                 </div>
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="input-wrapper">
-                        <label htmlFor ="username">Username</label>
-                        <input type="text" id="username" />
+                        <label htmlFor="username">Username</label>
+                        <input type="text" id="username" defaultValue={getLocalUserEmail()} />
                     </div>
                     <div className="input-wrapper">
-                        <label htmlFor ="password">Password</label>
+                        <label htmlFor="password">Password</label>
                         <input type="password" id="password" />
                     </div>
                     <div className="input-remember">
-                        <label htmlFor ="remember-me">Remember me</label>
+                        <label htmlFor="remember-me">Remember me</label>
                         <input type="checkbox" id="remember-me" />
                     </div>
                     {
